@@ -1,0 +1,2 @@
+Name,Currency,Active,Day Count,Fixing Calendar,Offset Days,Offset Calendar,Effective Date Calendar,Tenor,Tenor Convention,FixingTime,FixingZone,Fixed Leg Day Count
+ILS-TELBOR-3M,ILS,true,Act/360,"Fri/Sat",0,"Fri/Sat","Fri/Sat",3M,Following,11:00,Europe/London,Act/360

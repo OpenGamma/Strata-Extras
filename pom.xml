@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.opengamma</groupId>
+    <artifactId>corporate-parent</artifactId>
+    <version>2.6.2</version>
+    <relativePath></relativePath>
+  </parent>
+  <groupId>com.opengamma.strata</groupId>
+  <artifactId>strata-extras</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>Strata-Extras</name>
+  <description>OpenGamma Strata Extras</description>
+
+  <!-- ==================================================================== -->
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <!-- ==================================================================== -->
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/OpenGamma/Strata-Extras/issues</url>
+  </issueManagement>
+  <inceptionYear>2009</inceptionYear>
+  <mailingLists>
+    <mailingList>
+      <name>OpenGamma forum</name>
+      <archive>http://forums.opengamma.com/</archive>
+    </mailingList>
+  </mailingLists>
+  <scm>
+    <connection>scm:git:https://github.com/OpenGamma/Strata-Extras.git</connection>
+    <developerConnection>scm:git:https://github.com/OpenGamma/Strata-Extras.git</developerConnection>
+    <url>https://github.com/OpenGamma/Strata-Extras</url>
+  </scm>
+
+  <!-- ==================================================================== -->
+  <!-- standard build setup -->
+  <build>
+    <resources>
+      <!-- Include all standard resources -->
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+      <!-- Include LICENSE/NOTICE in jar files -->
+      <resource>
+        <directory>${root.dir}</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>LICENSE.txt</include>
+          <include>NOTICE.txt</include>
+        </includes>
+      </resource>
+    </resources>
+    <testResources>
+      <!-- Include all standard resources -->
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
+      <!-- Include LICENSE/NOTICE in test jar files -->
+      <testResource>
+        <directory>${root.dir}</directory>
+        <targetPath>META-INF</targetPath>
+        <includes>
+          <include>LICENSE.txt</include>
+          <include>NOTICE.txt</include>
+        </includes>
+      </testResource>
+    </testResources>
+    <plugins>
+      <!--  checkstyle -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>run-checkstyle</id>
+            <phase>process-sources</phase>
+            <goals>
+              <goal>checkstyle</goal>
+            </goals>
+            <configuration>
+              <failsOnError>true</failsOnError>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- ==================================================================== -->
+  <dependencies>
+    <dependency>
+      <groupId>com.opengamma.strata</groupId>
+      <artifactId>strata-measure</artifactId>
+      <version>${strata.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>${testng.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${assertj.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.opengamma.strata</groupId>
+      <artifactId>strata-collect</artifactId>
+      <version>${strata.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.opengamma.strata</groupId>
+      <artifactId>strata-basics</artifactId>
+      <version>${strata.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!-- ==================================================================== -->
+  <profiles>
+    <!-- apply strict build rules, activated with -Dstrict -->
+    <profile>
+      <id>strict</id>
+      <activation>
+        <property>
+          <name>strict</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>enforce</id>
+                <goals>
+                  <goal>enforce</goal>
+                </goals>
+                <configuration>
+                  <rules>
+                    <!-- no commons-logging or good/evil licensed json, junit only in test/provided -->
+                    <bannedDependencies>
+                      <excludes>
+                        <exclude>commons-logging:*</exclude>
+                        <exclude>org.json:json</exclude>
+                        <exclude>junit:*</exclude>
+                      </excludes>
+                      <includes>
+                        <include>junit:*:*:*:test</include>
+                        <include>junit:*:*:*:provided</include>
+                      </includes>
+                    </bannedDependencies>
+                    <banDuplicateClasses>
+                      <ignoreClasses>
+                        <ignoreClass>org.apache.commons.collections.ArrayStack</ignoreClass>
+                        <ignoreClass>org.apache.commons.collections.Buffer</ignoreClass>
+                        <ignoreClass>org.apache.commons.collections.BufferUnderflowException</ignoreClass>
+                        <ignoreClass>org.apache.commons.collections.FastHashMap*</ignoreClass>
+                        <ignoreClass>org.apache.tools.ant.ExitException</ignoreClass>
+                      </ignoreClasses>
+                      <findAllDuplicates>true</findAllDuplicates>
+                    </banDuplicateClasses>
+                    <!-- ensure dependencies resolve to latest version (removed as randomly fails MENFORCER-134) -->
+                    <!--requireUpperBoundDeps /-->
+                    <!-- need Java SE 8 or greater -->
+                    <requireJavaVersion>
+                      <version>[1.8,)</version>
+                    </requireJavaVersion>
+                    <requirePluginVersions>
+                    </requirePluginVersions>
+                  </rules>
+                  <fail>true</fail>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- validate Joda-Beans -->
+          <plugin>
+            <groupId>org.joda</groupId>
+            <artifactId>joda-beans-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>validate</phase>
+                <goals>
+                  <goal>validate</goal>
+                </goals>
+                <configuration>
+                  <stopOnError>true</stopOnError>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+  <!-- ==================================================================== -->
+  <properties>
+    <!-- Versions -->
+    <assertj.version>3.12.1</assertj.version>
+    <strata.version>2.2.1</strata.version>
+    <testng.version>6.14.2</testng.version><!-- 6.14.3 and 6.14.4 are invalid -->
+    <!-- Properties for maven-checkstyle-plugin -->
+    <!-- versions must be retained to allow the version to be overridden on the command line -->
+    <checkstyle.config.location>checkstyle/checkstyle-oss.xml</checkstyle.config.location>
+    <build-config.version>2.4.1</build-config.version>
+    <checkstyle.version>8.18</checkstyle.version>
+  </properties>
+
+</project>

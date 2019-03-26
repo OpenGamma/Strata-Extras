@@ -1,0 +1,17 @@
+sudo: false
+language: java
+jdk:
+  - openjdk11
+  - oraclejdk8
+cache:
+  directories:
+    - "$HOME/.m2/repository"
+before_cache:
+  - rm -rf $HOME/.m2/repository/com/opengamma/strata/extra
+# install
+before_install:
+  - echo "MAVEN_OPTS='-Xms512m -Xmx2g'" > ~/.mavenrc
+install:
+  - mvn --version
+script:
+  - mvn install -e -B -Dstrict
