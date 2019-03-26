@@ -117,6 +117,18 @@
       <version>${assertj.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>${log4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>${log4j.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>com.opengamma.strata</groupId>
       <artifactId>strata-collect</artifactId>
@@ -127,6 +139,13 @@
     <dependency>
       <groupId>com.opengamma.strata</groupId>
       <artifactId>strata-basics</artifactId>
+      <version>${strata.version}</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.opengamma.strata</groupId>
+      <artifactId>strata-pricer</artifactId>
       <version>${strata.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
@@ -217,6 +236,7 @@
   <properties>
     <!-- Versions -->
     <assertj.version>3.12.1</assertj.version>
+    <log4j.version>2.11.2</log4j.version>
     <strata.version>2.2.1</strata.version>
     <testng.version>6.14.2</testng.version><!-- 6.14.3 and 6.14.4 are invalid -->
     <!-- Properties for maven-checkstyle-plugin -->
